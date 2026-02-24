@@ -5,7 +5,6 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.metrics import silhouette_score
-from feature_extraction import get_ma_trend_actions
 
 class HybridModel:
     def __init__(self, k, classifier, gamma = 0.9, alpha = 0.05,
