@@ -61,8 +61,8 @@ class HybridModel:
         self.Q = np.zeros((self.k, 3))
         trade_actions = self.classifier.predict(stock_prices)
 
-        state_clusters = self.fit_kmeans(stock_prices)[20:-self.classifier.peek]
-        open_prices = stock_prices["open"].values[20:-self.classifier.peek]
+        state_clusters = self.fit_kmeans(stock_prices)[20:-1]
+        open_prices = stock_prices["open"].values[20:]
 
         current_epsilon = self.start_epsilon
         past_fifteen_rewards = deque()
@@ -86,7 +86,7 @@ class HybridModel:
 
             # Training loop
             # Trade starts at index 21 and ends at T - 1
-            for t in range(1, len(state_clusters)):
+            for t in range(1, len(open_prices)):
                 price_t = open_prices[t]
 
                 # Stop loss
@@ -110,12 +110,13 @@ class HybridModel:
 
                 # Select action for tomorrow based on information up to the closing price state and trade position of today
                 # Action is selected before Q-value update (SARSA)
-                s_t = state_clusters[t]
-                next_allowed = [2]
-                if position == 0 and trade_actions[t] == 0:
-                    next_allowed.append(0)
-                elif position == 1 and trade_actions[t] == 1:
-                    next_allowed.append(1)
+                if t < len(open_prices) - 1:
+                    s_t = state_clusters[t]
+                    next_allowed = [2]
+                    if position == 0 and trade_actions[t] == 0:
+                        next_allowed.append(0)
+                    elif position == 1 and trade_actions[t] == 1:
+                        next_allowed.append(1)
 
                 if np.random.rand() < current_epsilon:
                     next_action = np.random.choice(next_allowed)

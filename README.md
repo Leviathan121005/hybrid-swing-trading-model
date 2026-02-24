@@ -24,7 +24,7 @@ Daily stock price data are transformed into a state representation consisting of
 - Close change relative to same day open
 - Volume change relative to previous day volume
 
-These state vectors are clustered using the K-means clustering algorithm into `k` discrete clusters. Each cluster represents a distinct market state, allowing continuous price dynamics to be approximated as a finite state space, enabling the use of a tabular SARSA learning agent.
+The state vectors are clustered using the K-means clustering algorithm into `k` discrete clusters. This enables the use of a tabular SARSA learning agent, as price dynamics are captured as a finite set of distinct market states.
 
 ---
 
@@ -41,7 +41,7 @@ The SARSA agent learns the trading policy using the discrete price states from K
   - It can only own or not own the stock at any given time
   - Stop-loss is enforced at 10%
 
-  The agent learns a state-action value function (Q-table) that estimates the expected return of each action in each market state, allowing it to learn a policy that can avoid unfavorable classifier decisions to maximize cumulative returns over time.
+The agent learns a state-action value function (Q-table) that estimates the expected return of each action in each market state, allowing it to learn a policy that can avoid unfavorable classifier decisions to maximize cumulative returns over time.
 
 ---
 
@@ -52,10 +52,6 @@ The Naive Bayes classifier is first trained using data from index 20 up to t −
 Once trained, the classifier is fixed and assigned to the hybrid model. The hybrid model then performs K-means clustering to construct the discrete price states and trains the SARSA agent over multiple epochs to learn the trading policy.
 
 As convergence is not guaranteed, pseudo-convergence is assumed when the training reward stabilizes over a sufficient number of epochs.
-
-# Parameter Tuning and Cross Validation
-
-The params tuned are only peek for classifeir and k for the k-means clustering to avoid the model from overfitting. While there are other params for SARSA learning agnet like gamma, alpha, and epsilon they are fixed. Parameter tuning are done across some rolling window for classifier, and both rolling window and multiple seeds for the final hybrid model (as k-means and SARSA induces randomness). First find best peek for classifeir, before using the classifier to tune the k. 
 
 # Parameter Tuning and Cross Validation
 
