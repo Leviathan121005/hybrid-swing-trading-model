@@ -1,6 +1,6 @@
 # Hybrid Swing Trading Model
 
-A single-stock swing trading model that learns trading policies from historical price data. The model operates under a next-open decision framework, where trading actions are determined based on information available up to the previous day close and applied at the following opening price. During training, however, the model learns from price sequences that include both past and future time steps. The model consists of three components:
+A single-stock swing trading model that learns trading policies from historical price data. The model operates under a next-open decision framework, where trading actions are determined based on information available up to the previous day close (t - 1) and applied at the following opening price (t). During training, however, the model learns from price sequences that include both past and future time steps. The model consists of three components:
 
 ## 1. Naive Bayes Trend Indicators Classification
 
@@ -47,11 +47,9 @@ The agent learns a state-action value function (Q-table) that estimates the expe
 
 # Training
 
-The Naive Bayes classifier is first trained using data from index 20 up to t − `peek`. The first 20 observations are required to compute the trend indicators, while the final `peek` - 1 observations are needed to define profitable trade actions based on the look-ahead window.
+The Naive Bayes classifier is first trained using data from index 20 up to T − `peek`. The first 20 observations are required to compute the trend indicators, while the final `peek` - 1 observations are needed to define profitable trade actions based on the look-ahead window.
 
-Once trained, the classifier is fixed and assigned to the hybrid model. The hybrid model then performs K-means clustering to construct the discrete price states and trains the SARSA agent over multiple epochs to learn the trading policy.
-
-As convergence is not guaranteed, pseudo-convergence is assumed when the training reward stabilizes over a sufficient number of epochs.
+Once trained, the classifier is fixed and assigned to the hybrid model. The hybrid model then performs K-means clustering to construct the discrete price states and trains the SARSA agent over multiple epochs to learn the trading policy. As convergence is not guaranteed, pseudo-convergence is assumed when the training reward stabilizes over a sufficient number of epochs.
 
 # Parameter Tuning and Cross Validation
 
