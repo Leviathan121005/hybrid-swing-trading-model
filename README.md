@@ -30,15 +30,15 @@ The state vectors are clustered using the K-means clustering algorithm into `k` 
 
 ## 3. SARSA Reinforcement Learning Agent
 
-The SARSA agent learns the trading policy using the discrete price states from K-means clustering, guided by action suggestions from the Naive Bayes classifier.
+The SARSA agent learns the trading policy using the discrete price state clusters from K-means clustering and the actions space allowed by the Naive Bayes classifier.
 
-- **State:** Price state cluster from K-means clustering  
+- **State:** Price state cluster from K-means clustering
 - **Actions:** Buy, sell, and hold (0, 1, and 2)
 - **Reward:** Trade return with 0.2% transaction cost
 - **Policy:** Epsilon-greedy exploration  
 - **Constraints:**
-  - Action space restricted to classifier-suggested action or Hold
-  - It can only own or not own the stock at any given time
+  - Action space is restricted to classifier-suggested action or Hold
+  - The model can only own or not own the stock at any given time
   - Stop-loss is enforced at 10%
 
 The agent learns a state-action value function (Q-table) that estimates the expected return of each action in each market state, allowing it to learn a policy that can avoid unfavorable classifier decisions to maximize cumulative returns over time.
@@ -49,14 +49,16 @@ The agent learns a state-action value function (Q-table) that estimates the expe
 
 The Naive Bayes classifier is first trained using data from index 20 up to T − `peek`. The first 20 observations are required to compute the trend indicators, while the final `peek` - 1 observations are needed to define profitable trade actions based on the look-ahead window.
 
-Once trained, the classifier is fixed and assigned to the hybrid model. The hybrid model then performs K-means clustering to construct the discrete price states and trains the SARSA agent over multiple epochs to learn the trading policy. As convergence is not guaranteed, pseudo-convergence is assumed when the training reward stabilizes over a sufficient number of epochs.
+Once trained, the classifier is fixed and assigned to the hybrid model. The hybrid model then performs K-means clustering to construct the discrete price state clusters and trains the SARSA agent over multiple epochs to learn the trading policy. As convergence is not guaranteed, pseudo-convergence is assumed when the training reward stabilizes over a sufficient number of epochs.
 
-# Parameter Tuning and Cross Validation
+# Parameter Tuning
 
-The primary parameters tuned are `peek` for the classifier and `k` for the K-means clustering which are significant on the state-action modeling. The SARSA hyperparameters (`gamma`, `alpha`, and `epsilon`) are kept fixed to preserve robustness across different market conditions.
+The main parameters tuned are `peek` for the classifier and `k` for the K-means clustering, which have significant impact on the state-action structure. The SARSA hyperparameters (`gamma`, `alpha`, and `epsilon`) are kept fixed to preserve robustness across different market conditions.
 
-Parameter tuning is performed using rolling-window cross-validation, evaluated using the score metric defined as mean excess return minus its standard deviation. The `peek` value is first selected for the classifier, after which the classifier with the selected `peek` value is assigned to the hybrid model to evaluate different values of `k`. To account for randomness introduced by K-means clustering and SARSA learning, the score metrics are averaged across multiple random seeds.
+Parameter tuning is performed using rolling-window cross-validation. The parameters are selected by evaluating models on validation sets using a score metric defined as mean excess return minus its standard deviation. The `peek` value is first selected for the classifier, after which the classifier with the selected `peek` value is assigned to the hybrid model to evaluate different values of `k`. To account for randomness introduced by K-means clustering and SARSA learning, the score metrics are averaged across multiple random seeds.
 
 # Backtest
+
+
 
 

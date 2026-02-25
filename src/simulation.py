@@ -51,7 +51,7 @@ def simulate_trade(stock_prices, model, plot = True):
         if position == 1 and (price_t - entry_price) / entry_price <= -0.1:
             action = 1
 
-        # Force sell on last trading day
+        # Mark-to-market equivalent
         if t == len(open_prices) - 1:
             action = 1
 

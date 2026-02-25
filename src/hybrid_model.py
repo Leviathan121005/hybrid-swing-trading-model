@@ -7,7 +7,7 @@ from sklearn.decomposition import PCA
 from sklearn.metrics import silhouette_score
 
 class HybridModel:
-    def __init__(self, k, classifier, gamma = 0.9, alpha = 0.05,
+    def __init__(self, k, classifier, gamma = 0.9, alpha = 1,
                  start_epsilon = 1, min_epsilon = 0.05, epsilon_decay_rate = 0.99, 
                  min_epochs = 300, max_epochs = 600):
         self.k = k
@@ -93,7 +93,7 @@ class HybridModel:
                 if position == 1 and (price_t - entry_price) / entry_price <= -0.1:
                     action = 1
 
-                # Force sell on last trading day
+                # Mark-to-market equivalent
                 if t == len(open_prices) - 1:
                     action = 1
 
@@ -123,7 +123,7 @@ class HybridModel:
                 else:
                     next_action = next_allowed[np.argmax(self.Q[s_t][next_allowed])]
 
-                alpha = 1 / (1 + self.visit_count[s_prev, action])
+                alpha = self.alpha / (1 + self.visit_count[s_prev, action])
                 self.Q[s_prev, action] += alpha * (reward + self.gamma * self.Q[s_t, next_action] - self.Q[s_prev, action])
                 self.visit_count[s_prev, action] += 1
 
