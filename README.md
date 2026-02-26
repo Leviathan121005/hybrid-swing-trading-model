@@ -47,15 +47,19 @@ The agent learns a state-action value function (Q-table) that estimates the expe
 
 # Training
 
-The Naive Bayes classifier is first trained using data from index 20 up to T − `peek`. The first 20 observations are required to compute the trend indicators, while the final `peek` - 1 observations are needed to define profitable trade actions based on the look-ahead window.
+The Naive Bayes classifier is first trained using labels from index 20 up to T − peek (inclusive). The first 20 observations are required to compute the trend indicators, while the final peek − 1 observations cannot be used as starting points because insufficient future data exists to define profitable trade actions using the look-ahead window. Once trained, the classifier is fixed and assigned to the hybrid model.
 
-Once trained, the classifier is fixed and assigned to the hybrid model. The hybrid model then performs K-means clustering to construct the discrete price state clusters and trains the SARSA agent over multiple epochs to learn the trading policy. As convergence is not guaranteed, pseudo-convergence is assumed when the training reward stabilizes over a sufficient number of epochs.
+The hybrid model then performs K-means clustering to construct discrete price state clusters and trains the SARSA agent over multiple epochs to learn a trading policy. During training, the model iterates from index 21 up to T − 1, as the action suggested by the classifier at index t is to be applied at index t + 1.
+
+Since convergence is not guaranteed in SARSA, pseudo-convergence is assumed when the training reward stabilizes over a sufficient number of epochs.
 
 # Parameter Tuning
 
-The main parameters tuned are `peek` for the classifier and `k` for the K-means clustering, which have significant impact on the state-action structure. The SARSA hyperparameters (`gamma`, `alpha`, and `epsilon`) are kept fixed to preserve robustness across different market conditions.
+The main parameters tuned are `peek` for the classifier and `k` for the K-means clustering, which have significant impact on the state-action structure. The SARSA hyperparameters (`gamma`, `alpha`, and `epsilon`) are kept fixed to ensure consistent learning behavior across different training windows.
 
-Parameter tuning is performed using rolling-window cross-validation. The parameters are selected by evaluating models on validation sets using a score metric defined as mean excess return minus its standard deviation. The `peek` value is first selected for the classifier, after which the classifier with the selected `peek` value is assigned to the hybrid model to evaluate different values of `k`. To account for randomness introduced by K-means clustering and SARSA learning, the score metrics are averaged across multiple random seeds.
+Parameter tuning is performed using rolling-window cross-validation. The parameters are selected by evaluating models on validation sets using a score metric defined as mean excess return minus its standard deviation. 
+
+The `peek` value is first selected for the classifier, after which the classifier with the selected `peek` value is assigned to the hybrid model to evaluate different values of `k`. To account for randomness introduced by K-means clustering and SARSA learning, the score metrics are averaged across multiple random seeds.
 
 # Evaluation
 
