@@ -57,8 +57,47 @@ The main parameters tuned are `peek` for the classifier and `k` for the K-means 
 
 Parameter tuning is performed using rolling-window cross-validation. The parameters are selected by evaluating models on validation sets using a score metric defined as mean excess return minus its standard deviation. The `peek` value is first selected for the classifier, after which the classifier with the selected `peek` value is assigned to the hybrid model to evaluate different values of `k`. To account for randomness introduced by K-means clustering and SARSA learning, the score metrics are averaged across multiple random seeds.
 
-# Backtest
+# Evaluation
 
+The model is evaluated on the 50 largest market capitalization stocks in the IDX Composite as of 2024 using daily price data from 2023 to 2025. Stocks are included only if they have complete data over the full period, fewer than 20% zero-return days, and no zero-return streak longer than 15 consecutive trading days. This filtering results in 31 eligible stocks.
 
+Parameter tuning is performed on the 2023–2024 period using three rolling windows across five random seeds to ensure robustness. The final model is trained on 2023–2024 data and evaluated strictly out-of-sample on 2025 data.
 
+The list of selected stocks and their corresponding parameters is available in `stocks.txt`. Detailed results can be viewed from the saved parquet files using `analyze_result.ipynb`. All results are fully reproducible using `tune_parameters.ipynb` and `train_test.ipynb` under their default configurations, including the predefined rolling windows, training and testing periods, and fixed SARSA hyperparameters.
 
+---
+
+## Performance Summary (Out-of-Sample, 2025)
+
+### Mean Returns
+
+| Strategy        | Mean Return  |
+|-----------------|--------------|
+| Buy and Hold    | 0.223565     |
+| Moving Average  | 0.045390     |
+| Breakout        | 0.174778     |
+| Classifier      | 0.199871     |
+| Hybrid Model    | 0.220576     |
+
+### Sharpe Ratio
+
+| Strategy        | Sharpe Ratio |
+|-----------------|--------------|
+| Buy and Hold    | 0.338314     |
+| Moving Average  | 0.177394     |
+| Breakout        | 0.286588	   |
+| Classifier      | 0.366981	   |
+| Hybrid Model    | 0.362674     |
+
+---
+
+## Interpretation
+
+The hybrid model outperforms the rule-based baselines (Moving Average and Breakout) in both mean return and Sharpe ratio. Its mean return is comparable to Buy and Hold (22.06% vs 22.36%), while achieving a higher Sharpe ratio (0.363 vs 0.338), indicating better risk-adjusted performance.
+
+Compared to the standalone classifier, the hybrid model achieves a slightly higher mean return with a similar Sharpe ratio. This indicates a modest improvement, with the reinforcement learning component refining trade selection while maintaining comparable return stability.
+
+# References
+[text](https://doi.org/10.1016/j.eswa.2020.113761)
+[text](https://doi.org/10.1016/j.jfds.2016.03.002)
+[text](https://idx.co.id/id/data-pasar/laporan-statistik/digital-statistic/monthly/biggest-market-capitalization-most-active-stocks/biggest-market-capitalization?filter=eyJ5ZWFyIjoiMjAyMyIsIm1vbnRoIjoiMyIsInF1YXJ0ZXIiOjAsInR5cGUiOiJtb250aGx5In0%3D)

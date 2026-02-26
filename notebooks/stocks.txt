@@ -1,49 +1,40 @@
 1 - 10
-BBCA peek 7 k 9
-BYAN X
-TPIA X
-BBRI peek 6 k 3
+BBCA peek 7 k 9 
+BYAN peek 4 k 9
+TPIA peek 3 k 6
+BBRI peek 6 k 3 
 BMRI peek 3 k 3
-DSSA X
-PANI X
+PANI peek 3 k 6
 TLKM peek 7 k 3
 
 11 - 20
 ASII peek 7 k 3
-BBNI X
-ICBP peek 6 k 9
-BRIS X
+BBNI peek 6 k 9
+ICBP peek 6 k 9 
+BRIS peek 7 k 3
 AMRT peek 4 k 3
-DCII X
 UNTR peek 4 k 3
 
 21 - 30
-BRPT X
+BRPT peek 4 k 9
 ISAT peek 4 k 9
-CPIN peek 4 k 3
-ADRO X
-HMSP X
-UNVR X
-INDF X
+CPIN peek 4 k 3 
+ADRO peek 5 k 3
+HMSP peek 6 k 9
+UNVR peek 7 k 6
+INDF peek 7 k 6
 KLBF peek 4 k 3
 
 31 - 40
-GEMS X
 MYOR peek 6 k 9
-MTEL X
-MBMA peek 3 k 3
 ADMR peek 5 k 9
-BRMS peek 7 k 9
+BRMS peek 7 k 9 
 
 41 - 50
-MEGA peek 7 k 6
-NCKL X
 TBIG peek 3 k 3
-PNBN X
-BUMI X
+PNBN peek 5 k 3
+BUMI peek 6 k 9
 BNGA peek 7 k 3
 CMRY peek 3 k 6
-SILO X
-MDKA peek 4 k 3
-
-Note: Stocks without complete data from 2023 to 2025 are not included.
+SILO peek 4 k 9
+MDKA peek 4 k 3 
