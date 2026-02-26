@@ -98,6 +98,6 @@ The hybrid model outperforms the rule-based baselines (Moving Average and Breako
 Compared to the standalone classifier, the hybrid model achieves a slightly higher mean return with a similar Sharpe ratio. This indicates a modest improvement, with the reinforcement learning component refining trade selection while maintaining comparable return stability.
 
 # References
-[text](https://doi.org/10.1016/j.eswa.2020.113761)
-[text](https://doi.org/10.1016/j.jfds.2016.03.002)
-[text](https://idx.co.id/id/data-pasar/laporan-statistik/digital-statistic/monthly/biggest-market-capitalization-most-active-stocks/biggest-market-capitalization?filter=eyJ5ZWFyIjoiMjAyMyIsIm1vbnRoIjoiMyIsInF1YXJ0ZXIiOjAsInR5cGUiOiJtb250aGx5In0%3D)
+https://doi.org/10.1016/j.eswa.2020.113761
+https://doi.org/10.1016/j.jfds.2016.03.002
+https://idx.co.id/id/data-pasar/laporan-statistik/digital-statistic/monthly/biggest-market-capitalization-most-active-stocks/biggest-market-capitalization?filter=eyJ5ZWFyIjoiMjAyMyIsIm1vbnRoIjoiMyIsInF1YXJ0ZXIiOjAsInR5cGUiOiJtb250aGx5In0%3D
