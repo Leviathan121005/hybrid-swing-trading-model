@@ -1,6 +1,6 @@
 # Hybrid Swing Trading Model
 
-A single-stock swing trading model that learns trading policies from historical price data. The model operates under a next-open decision framework, where trading actions are determined based on information available up to the previous day close (t - 1) and applied at the following opening price (t). During training, however, the model learns from price sequences that include both past and future time steps. The model consists of three components:
+A single-stock swing trading model that learns trading policies from historical price data. The model operates under a next-open decision framework, where trading actions are determined based on information available up to the previous day close (t - 1) and applied at the following opening price (t). During training, however, the model learns from price sequences that include both past and future time steps. Returns are realized when positions are closed during trading. If a position remains open at the end of the dataset, its value is computed using mark-to-market valuation based on the final available price. The model consists of three components:
 
 ## 1. Naive Bayes Trend Indicators Classification
 
@@ -97,7 +97,7 @@ The list of selected stocks and their corresponding parameters is available in `
 
 ## Interpretation
 
-The hybrid model outperforms the rule-based baselines (Moving Average and Breakout) in both mean return and Sharpe ratio. Its mean return is comparable to Buy and Hold (22.06% vs 22.36%), while achieving a higher Sharpe ratio (0.363 vs 0.338), indicating better risk-adjusted performance.
+The hybrid model outperforms the two baselines (Moving Average and Breakout) in both mean return and Sharpe ratio. Its mean return is comparable to Buy and Hold (22.06% vs 22.36%), while achieving a higher Sharpe ratio (0.363 vs 0.338), indicating better risk-adjusted performance.
 
 Compared to the standalone classifier, the hybrid model achieves a slightly higher mean return with a similar Sharpe ratio. This indicates a modest improvement, with the reinforcement learning component refining trade selection while maintaining comparable return stability.
 
